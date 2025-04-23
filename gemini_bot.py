@@ -3,6 +3,9 @@ import datetime
 import pytz
 import google.generativeai as genai
 from google.generativeai.types import FunctionDeclaration, Tool
+from dotenv import load_dotenv # Import load_dotenv
+
+load_dotenv() # Load environment variables from .env file
 
 class TimeTool:
     """Encapsulates timezone-aware time utilities and their Gemini declarations."""
@@ -84,9 +87,11 @@ class GeminiBot:
         return part.text
 
 if __name__ == "__main__":
-    # api_key = os.getenv("GOOGLE_API_KEY", "YOUR_API_KEY")
-    # Make sure to replace 'YOUR_API_KEY' with your actual key if not using environment variables
-    bot = GeminiBot(api_key='AIzaSyDhXoFKKTuswLAFi6Cm6wJe-CS3LIleAOE')
+    api_key = os.getenv("GOOGLE_API_KEY") # Get key from environment
+    if not api_key:
+        raise ValueError("GOOGLE_API_KEY not found in .env file or environment variables.")
+
+    bot = GeminiBot(api_key=api_key) # Use the loaded key
     bot.start_chat()
 
     print("Chat started. Type 'quit' to exit.")
