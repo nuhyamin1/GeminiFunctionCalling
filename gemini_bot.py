@@ -4,6 +4,7 @@ from google.generativeai.types import Tool
 from dotenv import load_dotenv # Import load_dotenv
 
 from time_tool import TimeTool
+from send_imail_tool import EmailTool
 
 load_dotenv() # Load environment variables from .env file
 
@@ -15,7 +16,8 @@ class GeminiBot:
         # register all function declarations in one Tool
         tool = Tool(function_declarations=[
             TimeTool.GET_CURRENT_TIME,
-            TimeTool.GET_FUTURE_TIME
+            TimeTool.GET_FUTURE_TIME,
+            EmailTool.SEND_EMAIL
         ])
         self.model = genai.GenerativeModel(
             model_name=model_name,
@@ -24,7 +26,8 @@ class GeminiBot:
         # map names to callables
         self.functions = {
             "get_current_time": TimeTool.get_current_time,
-            "get_future_time": TimeTool.get_future_time
+            "get_future_time": TimeTool.get_future_time,
+            "send_email": EmailTool.send_email
         }
 
     def start_chat(self, auto_func=False):
