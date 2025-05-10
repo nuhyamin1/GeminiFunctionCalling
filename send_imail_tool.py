@@ -1,7 +1,11 @@
+import os
 import smtplib
 from email.message import EmailMessage
+from dotenv import load_dotenv
 
 from google.generativeai.types import FunctionDeclaration, Tool
+
+load_dotenv()
 
 class EmailTool:
     """ Send email using SMTP lib"""
@@ -34,8 +38,8 @@ class EmailTool:
    
     @staticmethod
     def send_email(subject: str, to: str, content: str):
-        email_address = "pfspeakingmaster@gmail.com"
-        email_password = "bkcqnowqmmcddakd"
+        email_address = os.getenv("EMAIL_ADDRESS")
+        email_password = os.getenv("EMAIL_PASSWORD")
 
         if not all([subject, to, content]):
             return {"status": "error", "message": "Missing required fields: subject, to, or content."}
